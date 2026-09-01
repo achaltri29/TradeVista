@@ -5,6 +5,8 @@ const OrdersSchema = new Schema({
   qty: Number,
   price: Number,
   mode: String,
+  status: { type: String, default: "EXECUTED" },
+  createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = { OrdersSchema };

@@ -216,6 +216,13 @@ app.get("/allOrders", async (req, res) => {
 });
 
 
+
+app.delete("/cancelOrder/:id", async (req, res) => {
+    const { id } = req.params;
+    await OrdersModel.findByIdAndUpdate(id, { status: "CANCELLED" });
+    res.send("Order cancelled!");
+});
+
 app.listen(PORT, () => {
     console.log("App started!");
     mongoose.connect(uri);

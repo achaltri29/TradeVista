@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const Summary = () => {
+  const [allHoldings, setAllHoldings] = useState([]);
+  const [allPositions, setAllPositions] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3002/allHoldings").then((res) => {
+      setAllHoldings(res.data);
+    });
+    axios.get("http://localhost:3002/allPositions").then((res) => {
+      setAllPositions(res.data);
+    });
+  }, []);
+
+  const totalInvestment = allHoldings.reduce(
+    (acc, stock) => acc + stock.avg * stock.qty, 0
+  );
+  const currentValue = allHoldings.reduce(
+    (acc, stock) => acc + stock.price * stock.qty, 0
+  );
+  const totalPnL = currentValue - totalInvestment;
+  const pnlPercent =
+    totalInvestment > 0
+      ? ((totalPnL / totalInvestment) * 100).toFixed(2)
+      : "0.00";
+  const isPnLProfit = totalPnL >= 0;
+
+  const formatK = (val) => {
+    if (Math.abs(val) >= 1000) {
+      return (val / 1000).toFixed(2) + "k";
+    }
+    return val.toFixed(2);
+  };
+
   return (
     <>
       <div className="username">
@@ -34,13 +67,14 @@ const Summary = () => {
 
       <div className="section">
         <span>
-          <p>Holdings (13)</p>
+          <p>Holdings ({allHoldings.length})</p>
         </span>
 
         <div className="data">
           <div className="first">
-            <h3 className="profit">
-              1.55k <small>+5.20%</small>{" "}
+            <h3 className={isPnLProfit ? "profit" : "loss"}>
+              {isPnLProfit ? "+" : ""}{formatK(totalPnL)}{" "}
+              <small>{isPnLProfit ? "+" : ""}{pnlPercent}%</small>{" "}
             </h3>
             <p>P&L</p>
           </div>
@@ -48,15 +82,24 @@ const Summary = () => {
 
           <div className="second">
             <p>
-              Current Value <span>31.43k</span>{" "}
+              Current Value <span>{formatK(currentValue)}</span>{" "}
             </p>
             <p>
-              Investment <span>29.88k</span>{" "}
+              Investment <span>{formatK(totalInvestment)}</span>{" "}
             </p>
           </div>
         </div>
         <hr className="divider" />
       </div>
+
+      {allPositions.length > 0 && (
+        <div className="section">
+          <span>
+            <p>Positions ({allPositions.length})</p>
+          </span>
+          <hr className="divider" />
+        </div>
+      )}
     </>
   );
 };
