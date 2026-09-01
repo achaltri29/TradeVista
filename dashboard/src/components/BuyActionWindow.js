@@ -1,33 +1,64 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
 
 import axios from "axios";
 
 import GeneralContext from "./GeneralContext";
+import { watchlist } from "../data/data";
 
 import "./BuyActionWindow.css";
 
-const BuyActionWindow = ({ uid }) => {
-  const [stockQuantity, setStockQuantity] = useState(1);
-  const [stockPrice, setStockPrice] = useState(0.0);
+const BuyActionWindow = ({ uid, mode = "BUY" }) => {
+  const { closeBuyWindow, closeSellWindow } = useContext(GeneralContext);
 
-  const handleBuyClick = () => {
+  const stock = watchlist.find((s) => s.name === uid);
+  const initialPrice = stock ? stock.price : 0.0;
+
+  const [stockQuantity, setStockQuantity] = useState(1);
+  const [stockPrice, setStockPrice] = useState(initialPrice);
+
+  const handleClose = () => {
+    if (mode === "BUY") {
+      closeBuyWindow();
+    } else {
+      closeSellWindow();
+    }
+  };
+
+  const handleOrderClick = () => {
     axios.post("http://localhost:3002/newOrder", {
       name: uid,
-      qty: stockQuantity,
-      price: stockPrice,
-      mode: "BUY",
+      qty: Number(stockQuantity),
+      price: Number(stockPrice),
+      mode: mode,
+    }).then(() => {
+      handleClose();
+    }).catch((err) => {
+      console.error("Error creating order:", err);
     });
-
-    GeneralContext.closeBuyWindow();
   };
 
   const handleCancelClick = () => {
-    GeneralContext.closeBuyWindow();
+    handleClose();
   };
 
+  const marginRequired = (stockQuantity * stockPrice).toFixed(2);
+
   return (
-    <div className="container" id="buy-window" draggable="true">
+    <div className={`container ${mode === "SELL" ? "sell-mode" : ""}`} id="buy-window" draggable="true">
+      <div className="header">
+        <h3>{mode === "BUY" ? "Buy" : "Sell"} {uid}</h3>
+        <div className="market-options">
+          <label>
+            <input type="radio" name="order-type-market" defaultChecked />
+            Regular
+          </label>
+        </div>
+      </div>
+
+      <div className="tab">
+        <button className="active">Regular</button>
+      </div>
+
       <div className="regular-order">
         <div className="inputs">
           <fieldset>
@@ -36,7 +67,7 @@ const BuyActionWindow = ({ uid }) => {
               type="number"
               name="qty"
               id="qty"
-              onChange={(e) => setStockQuantity(e.target.value)}
+              onChange={(e) => setStockQuantity(Number(e.target.value))}
               value={stockQuantity}
             />
           </fieldset>
@@ -47,7 +78,7 @@ const BuyActionWindow = ({ uid }) => {
               name="price"
               id="price"
               step="0.05"
-              onChange={(e) => setStockPrice(e.target.value)}
+              onChange={(e) => setStockPrice(Number(e.target.value))}
               value={stockPrice}
             />
           </fieldset>
@@ -55,14 +86,14 @@ const BuyActionWindow = ({ uid }) => {
       </div>
 
       <div className="buttons">
-        <span>Margin required ₹140.65</span>
+        <span>Margin required ₹{marginRequired}</span>
         <div>
-          <Link className="btn btn-blue" onClick={handleBuyClick}>
-            Buy
-          </Link>
-          <Link to="" className="btn btn-grey" onClick={handleCancelClick}>
+          <button className="btn btn-blue" onClick={handleOrderClick}>
+            {mode === "BUY" ? "Buy" : "Sell"}
+          </button>
+          <button className="btn btn-grey" onClick={handleCancelClick}>
             Cancel
-          </Link>
+          </button>
         </div>
       </div>
     </div>

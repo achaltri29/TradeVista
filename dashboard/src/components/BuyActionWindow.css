@@ -218,4 +218,45 @@
     background: #9b9b9b;
     color: #fff;
   }
+
+  /* Sell Mode Specific Styles */
+  .container.sell-mode .header {
+    background: #ff5722;
+  }
+
+  .container.sell-mode .tab button {
+    color: #ff5722;
+  }
+
+  .container.sell-mode .tab button::after {
+    background-color: #ff5722;
+  }
+
+  .container.sell-mode .options span {
+    color: #ff5722;
+  }
+
+  .container.sell-mode .btn-blue {
+    background: #ff5722;
+  }
+
+  .container.sell-mode .btn-blue:hover {
+    background: #ff7a47;
+  }
+
+  /* Slide-up transition animation */
+  @keyframes slideUp {
+    from {
+      transform: translateY(60px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .container {
+    animation: slideUp 0.25s cubic-bezier(0.1, 0.76, 0.55, 0.94);
+  }
   

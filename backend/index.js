@@ -179,7 +179,7 @@ app.use(bodyParser.json());
 //       price: item.price,
 //       net: item.net,
 //       day: item.day,
-//       isLoss: item.isLoss,
+//       isLoss: item.isLoss, 
 //     });
 
 //     newPosition.save();
@@ -188,30 +188,36 @@ app.use(bodyParser.json());
 // });
 
 app.get("/allHoldings", async (req, res) => {
-  let allHoldings = await HoldingsModel.find({});
-  res.json(allHoldings);
+    let allHoldings = await HoldingsModel.find({});
+    res.json(allHoldings);
 });
 
 app.get("/allPositions", async (req, res) => {
-  let allPositions = await PositionsModel.find({});
-  res.json(allPositions);
+    let allPositions = await PositionsModel.find({});
+    res.json(allPositions);
 });
 
 app.post("/newOrder", async (req, res) => {
-  let newOrder = new OrdersModel({
-    name: req.body.name,
-    qty: req.body.qty,
-    price: req.body.price,
-    mode: req.body.mode,
-  });
+    let newOrder = new OrdersModel({
+        name: req.body.name,
+        qty: req.body.qty,
+        price: req.body.price,
+        mode: req.body.mode,
+    });
 
-  newOrder.save();
+    await newOrder.save();
 
-  res.send("Order saved!");
+    res.send("Order saved!");
 });
 
+app.get("/allOrders", async (req, res) => {
+    let allOrders = await OrdersModel.find({});
+    res.json(allOrders);
+});
+
+
 app.listen(PORT, () => {
-  console.log("App started!");
-  mongoose.connect(uri);
-  console.log("DB started!");
+    console.log("App started!");
+    mongoose.connect(uri);
+    console.log("DB started!");
 });
