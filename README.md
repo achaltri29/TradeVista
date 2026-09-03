@@ -10,7 +10,7 @@
 |---|---|---|
 | **Marketing Frontend** | [https://tradevista-frontend.onrender.com](https://tradevista-frontend.onrender.com) | Client-facing landing pages, products, pricing & Sign Up / Login |
 | **Trading Dashboard** | [https://tradevista-dashboard-eibc.onrender.com](https://tradevista-dashboard-eibc.onrender.com) | Real-time Kite-style trading dashboard, order book & portfolio |
-| **Backend API** | [https://tradevista-backend-eibc.onrender.com](https://tradevista-backend-ei10.onrender.com) | RESTful API server connected to MongoDB Atlas |
+| **Backend API** | [https://tradevista-backend-ei10.onrender.com](https://tradevista-backend-ei10.onrender.com) | RESTful API server connected to MongoDB Atlas |
 
 ---
 
