@@ -1,6 +1,6 @@
 # TradeVista
 
-> A full-stack stock trading platform and investment ecosystem inspired by Zerodha (Kite). TradeVista features a real-time trading dashboard, dynamic order placement & cancellation modals, live portfolio management (Holdings & Positions), an interactive client marketing portal with Sign Up / Login, and a production-ready Express backend connected to MongoDB Atlas.
+A full-stack stock trading platform and investment ecosystem inspired by Zerodha (Kite). TradeVista features a real-time trading dashboard, dynamic order placement & cancellation modals, live portfolio management (Holdings & Positions), an interactive client marketing portal with Sign Up / Login, and a production-ready Express backend connected to MongoDB Atlas.
 
 ---
 
