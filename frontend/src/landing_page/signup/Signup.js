@@ -56,10 +56,10 @@ function Signup() {
   return (
     <div
       className="container d-flex justify-content-center align-items-center"
-      style={{ minHeight: "80vh", paddingTop: "40px" }}
+      style={{ minHeight: "80vh", paddingTop: "40px", paddingBottom: "40px" }}
     >
       <div
-        className="card shadow-sm"
+        className="card shadow-sm mx-auto"
         style={{ width: "100%", maxWidth: "440px", borderRadius: "12px" }}
       >
         <div className="card-body p-5">
@@ -124,7 +124,7 @@ function Signup() {
                   type="text"
                   className="form-control"
                   name="name"
-                  placeholder="Your name"
+                  placeholder="Your Name"
                   value={formData.name}
                   onChange={handleChange}
                   style={{ borderRadius: "8px" }}

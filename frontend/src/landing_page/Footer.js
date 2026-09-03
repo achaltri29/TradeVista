@@ -8,7 +8,7 @@ function Footer() {
           <div className="col">
             <img src="media/images/logo.svg" style={{ width: "50%" }} />
             <p>
-              &copy; 2010 - 2024, Not Zerodha Broking Ltd. All rights reserved.
+              &copy; 2010 - 2026, Not Zerodha Broking Ltd. All rights reserved.
             </p>
           </div>
           <div className="col">
@@ -45,7 +45,7 @@ function Footer() {
           </div>
           <div className="col">
             <p>Account</p>
-            <a href="">Open an account</a>
+            <a href="/signup">Open an account</a>
             <br />
             <a href="">Fund transfer</a>
             <br />
