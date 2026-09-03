@@ -124,7 +124,7 @@ function Signup() {
                   type="text"
                   className="form-control"
                   name="name"
-                  placeholder="Achal Tripathi"
+                  placeholder="Your name"
                   value={formData.name}
                   onChange={handleChange}
                   style={{ borderRadius: "8px" }}
