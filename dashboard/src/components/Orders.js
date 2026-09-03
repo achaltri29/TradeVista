@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 const Orders = () => {
   const [allOrders, setAllOrders] = useState([]);
 
   const fetchOrders = () => {
     axios
-      .get("http://localhost:3002/allOrders")
+      .get(`${API_BASE_URL}/allOrders`)
       .then((res) => {
         setAllOrders(res.data);
       })
@@ -22,7 +23,7 @@ const Orders = () => {
 
   const handleCancelOrder = (orderId) => {
     axios
-      .delete(`http://localhost:3002/cancelOrder/${orderId}`)
+      .delete(`${API_BASE_URL}/cancelOrder/${orderId}`)
       .then(() => {
         fetchOrders();
       })
