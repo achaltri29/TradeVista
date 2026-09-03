@@ -1,36 +1,49 @@
-# 📈 TradeVista
+# TradeVista
 
-> A full-stack stock trading platform and investment ecosystem inspired by Zerodha (Kite). TradeVista features a real-time trading dashboard, dynamic order placement modals, portfolio management (Holdings & Positions), and a comprehensive marketing & client-facing portal.
+> A full-stack stock trading platform and investment ecosystem inspired by Zerodha (Kite). TradeVista features a real-time trading dashboard, dynamic order placement & cancellation modals, live portfolio management (Holdings & Positions), an interactive client marketing portal with Sign Up / Login, and a production-ready Express backend connected to MongoDB Atlas.
 
 ---
 
-## 🌟 Features
+## Live Render Deployments
 
-### 💻 Trading Dashboard (`/dashboard`)
-* **Watchlist**: Real-time stock ticker with visual up/down change indicators and portfolio allocation doughnut chart.
+| Service | Live URL | Description |
+|---|---|---|
+| **Marketing Frontend** | [https://tradevista-frontend.onrender.com](https://tradevista-frontend.onrender.com) | Client-facing landing pages, products, pricing & Sign Up / Login |
+| **Trading Dashboard** | [https://tradevista-dashboard-eibc.onrender.com](https://tradevista-dashboard-eibc.onrender.com) | Real-time Kite-style trading dashboard, order book & portfolio |
+| **Backend API** | [https://tradevista-backend-eibc.onrender.com](https://tradevista-backend-eibc.onrender.com) | RESTful API server connected to MongoDB Atlas |
+
+---
+
+## Key Features
+
+### Trading Dashboard (`/dashboard`)
+* **Live Search & Watchlist**: Filter stocks dynamically as you type with live counts, change percentages, and portfolio allocation charts.
 * **Unified Action Window (Buy / Sell)**: 
   * Dynamic header and button themes (Blue for **BUY**, Orange/Red for **SELL**).
   * Auto-lookup for Last Traded Price (LTP).
   * Real-time margin requirement calculations.
   * Micro-animations and slide-up modal transitions.
-* **Portfolio & Risk Management**:
-  * **Holdings**: Real-time table of long-term investments with P&L, day change, and visual bar charts.
+* **Portfolio & Dynamic P&L**:
+  * **Holdings**: Real-time table of long-term investments with dynamic `reduce()` P&L, day change, total investment calculations, and visual bar graphs.
   * **Positions**: Intraday and derivative contracts with live profit/loss breakdown.
-* **Orders Management**: Live order book listing executed BUY and SELL trades fetched from MongoDB.
+* **Order Management & Cancellation**:
+  * Live order book showing instrument, quantity, price, execution mode, status badges (`EXECUTED` / `CANCELLED`), and timestamps.
+  * Instant order cancellation (`DELETE /cancelOrder/:id`).
 * **Funds & Margin Overview**: Equity and commodity margin balances and cash accounts.
 
-### 🌐 Client Portal / Marketing Site (`/frontend`)
+### Client Portal / Marketing Site (`/frontend`)
 * **Interactive Landing Pages**: Complete suite including Home, About Us, Products, Pricing Calculator, and Support Ticket creation.
+* **Sign Up & Login Portal**: Tabbed authentication page with client-side form validation, error banners, and clean responsive design.
 * **Automated Unit Testing**: Comprehensive test suite using Jest and `@testing-library/react`.
 
-### ⚡ Backend API (`/backend`)
-* **RESTful Endpoints**: Built with Node.js and Express.
-* **Database**: MongoDB Atlas via Mongoose models for `Holdings`, `Positions`, and `Orders`.
-* **CORS & Body-Parser**: Full cross-origin and payload support.
+### Backend API (`/backend`)
+* **RESTful Endpoints**: Express backend supporting `/allHoldings`, `/allPositions`, `/newOrder`, `/allOrders`, and `/cancelOrder/:id`.
+* **Database Integration**: MongoDB Atlas via Mongoose schemas and models.
+* **CORS & Environment Configurations**: Configured for cross-origin deployment across Render services.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technologies |
 |---|---|
@@ -38,10 +51,11 @@
 | **Trading Dashboard** | React.js, Material-UI (MUI), Chart.js, React-Chartjs-2, Vanilla CSS |
 | **Backend API** | Node.js, Express.js, Mongoose, Passport.js, Dotenv, Cors |
 | **Database** | MongoDB Atlas |
+| **Deployment** | Render (Static Sites & Web Services), Render Blueprint (`render.yaml`) |
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 TradeVista/
@@ -53,81 +67,56 @@ TradeVista/
 │   └── package.json
 ├── dashboard/                # Kite-style React trading dashboard
 │   ├── src/
-│   │   ├── components/       # WatchList, BuyActionWindow, Holdings, Positions, Orders, Funds
+│   │   ├── components/       # WatchList, BuyActionWindow, Holdings, Positions, Orders, Summary, Funds
+│   │   ├── config.js         # API Base URL environment configuration
 │   │   └── data/             # Stock list & market mock data
 │   └── package.json
 ├── frontend/                 # Client marketing website & landing pages
 │   ├── src/
-│   │   ├── landing_page/     # Home, About, Pricing, Products, Support
+│   │   ├── landing_page/     # Home, About, Pricing, Products, Support, Signup
 │   │   └── test/             # Jest component unit tests
 │   └── package.json
+├── render.yaml               # Render Blueprint multi-service deployment spec
 └── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+## Local Development Setup
 
-### 1. Prerequisites
-* [Node.js](https://nodejs.org/) (v16 or higher)
-* [npm](https://www.npmjs.com/)
-* [MongoDB Atlas](https://www.mongodb.com/atlas) account (or local MongoDB)
-
-### 2. Clone the Repository
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/achaltri29/TradeVista.git
 cd TradeVista
 ```
 
----
+### 2. Setup Backend
+```bash
+cd backend
+npm install
+# Create .env and set MONGO_URL
+npm start
+```
+*Runs on `http://localhost:3002`.*
 
-### 3. Setup Backend
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   npm install
-   ```
-2. Create your `.env` file from the template:
-   ```bash
-   cp .env.example .env
-   ```
-3. Update `MONGO_URL` in `.env` with your MongoDB connection string.
-4. Start the backend server:
-   ```bash
-   npm start
-   ```
-   *The backend runs on `http://localhost:3002`.*
+### 3. Setup Trading Dashboard
+```bash
+cd dashboard
+npm install
+npm start
+```
+*Runs on `http://localhost:3000` (or `3001`).*
 
----
-
-### 4. Setup Trading Dashboard
-1. Open a new terminal and navigate to the dashboard directory:
-   ```bash
-   cd dashboard
-   npm install
-   ```
-2. Start the dashboard application:
-   ```bash
-   npm start
-   ```
-   *The dashboard runs on `http://localhost:3000` (or `3001`).*
+### 4. Setup Marketing Frontend
+```bash
+cd frontend
+npm install
+npm start
+```
 
 ---
 
-### 5. Setup Marketing Frontend
-1. Open a new terminal and navigate to the frontend directory:
-   ```bash
-   cd frontend
-   npm install
-   ```
-2. Start the marketing website:
-   ```bash
-   npm start
-   ```
-
----
-
-## 🧪 Running Tests
+## Running Tests
 
 To run the automated Jest test suite in the frontend:
 ```bash
@@ -137,16 +126,5 @@ npm test -- --watchAll=false
 
 ---
 
-## 🗺️ Roadmap & Upcoming Features
-
-- [ ] **Authentication System**: User registration, login, and JWT-based session authorization.
-- [ ] **Interactive Watchlist Search**: Real-time filtering across instruments.
-- [ ] **Live P&L & Portfolio Calculations**: Dynamic aggregate computation across holdings.
-- [ ] **Real-time Price Engine**: WebSockets / Socket.io live market tick simulator.
-- [ ] **Funds Top-up & Withdrawal**: Dynamic margin adjustments on order placement.
-- [ ] **Order Cancellation & Statuses**: Support for `OPEN`, `EXECUTED`, and `CANCELLED` order lifecycles.
-
----
-
-## 📄 License
+## License
 This project is open-source and available under the [MIT License](LICENSE).
